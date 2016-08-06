@@ -1,0 +1,71 @@
+{%extends 'playground/base.html' %}
+{%block title%}Add New Question{%endblock%}
+{% block extrahead %}
+<script type="text/javascript">
+<!--
+    function toggle_visibility(id) {
+       var e = document.getElementById(id);
+       var t = $('a#toggle');
+       if (e.style.display == 'block') {
+          e.style.display = 'none';
+          t.text( 'show more fields');
+        } else {
+          e.style.display = 'block';
+          t.text('hide fields');
+        }
+    }
+//-->
+</script>
+{% endblock extrahead %}
+{% block extrastyle %}
+#optional {display:none}
+#q {margin: 20; border: 1px solid gray; padding: 5px}
+
+#submit {margin-top: 10; margin-left: 75; width: 150px; margin-right: 175px; float:right;}
+#answer {margin: 10px; border-bottom: 2px solid #eee; padding:7px}
+#toggle {margin-top: 10px;}
+.success {color:#556b2f; border: 1px green solid; padding:3px; width: 350px; margin-bottom:10px;
+    background:lightgreen; text-style:bold}
+.section {height:15px; padding: 15px; border-bottom: 2px solid #eee;}
+.btn { border: 2px solid lightgray; border-radius: 8px; font-size: 1.5em; margin-left: 4px; background:
+    #eee; }
+.btn-sm { font-size: 1em; text-decoration: none; padding: 1px 12px; }
+.clear {clear:both}
+form {margin-bottom:0}
+.help { color: gray; }
+td { vertical-align:top }
+{% endblock %}
+{%block content%}
+{% for m in messages %}
+ <div class='success'>{{m}}</div>
+{% endfor %}
+
+<form method="POST" action=".">{%csrf_token%}
+    <div>
+        <table>
+        {# form.as_table #}
+        <tr><td>Question</td><td>{{form.question}}</tr>
+
+        <!--<tr><td class='section'> </td><td colspan=2 class='section'>Fill in ONE of the following fields</td></tr>-->
+        <tr><td>Multiple Choices</td><td>{{form.choices}}<br><span
+                    class='help'>{{form.choices.help_text}}</span></tr>
+        </table>
+
+        <br>
+        <a id='toggle' class='btn btn-sm' onclick='toggle_visibility("optional")' href='#'>show more fields</a>
+
+        <table id='optional'>
+        <tr><td>Answer</td><td>{{form.answer}}</tr>
+
+        <!--<tr><td class='section'>&nbsp;</td><td colspan=2 class='section'>OPTIONAL</td></tr>-->
+        <tr><td>Difficulty</td><td>{{form.difficulty}}<br>{{form.difficulty.help_text}}</tr>
+        <tr><td>Type</td><td>{{form.question_type}}<br>{{form.question_type.help_text}}</tr>
+        <tr><td>Version</td><td>{{form.version}}<br>{{form.version.help_text}}</tr>
+        </table>
+</div>
+
+<input class='btn' id="submit" type="submit" value="Add" >
+<div class='clear'></div>
+</form>
+</div>
+{%endblock%}

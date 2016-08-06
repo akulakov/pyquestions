@@ -1,0 +1,22 @@
+{%extends 'playground/base.html' %}
+{%block title%}Update Username{%endblock%}
+{%block extrastyle%}
+#submit {margin-top: 10; margin-left: 75}
+{%endblock%}
+{%block content%}
+
+{% for m in messages %}
+ <div>{{m}}</div>
+{% endfor %}
+
+<p>You might want to change your username that will be visible on the site from the default google
+username</p>
+<form method="POST" action=".">{%csrf_token%}
+    <table>
+    {{ form.as_table }}
+    </table>
+
+    <input id="submit" type="submit" value="Update">
+</form>
+</div>
+{%endblock%}

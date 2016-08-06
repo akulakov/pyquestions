@@ -1,0 +1,46 @@
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+<title>{%block title%}{%endblock%}</title>
+<style type="text/css">
+#main { margin: 20 20 }
+#auth {display:inline}
+#content { width: 90%; border: 10px solid lightgray; border-radius: 8px; margin: 10 auto; padding: 15px}
+#menu {margin-left: 50px; }
+
+{%block extrastyle%}{%endblock%}
+</style>
+{%block extrahead%}
+{%endblock%}
+
+</head>
+<body>
+<p>
+   <ul id="auth">
+   {% if request.user and not request.user.is_anonymous %}
+     <li>
+       <a>Hello {{ request.user.get_full_name|default:request.user.username }}!</a>
+     </li>
+     <li>
+       <a href="{% url 'auth:logout' %}?next={{ request.path }}">Logout</a>
+     </li>
+   {% else %}
+     <li>
+       <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">Login with Google</a>
+     </li>
+   {% endif %}
+   </ul>
+ </p>
+<p id='menu'>
+<a href='{% url "random_question" %}'>random question</a>
+{% if view.request.user %}
+| <a href='{% url "new_question" %}'>add new question</a> |
+<a href='{% url "review_question" %}'>review question</a>
+{%endif%}
+<div id='content'>
+{% block content %}{%endblock%}
+</div>
+</body>
+</html>
+

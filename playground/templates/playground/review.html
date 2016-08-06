@@ -1,0 +1,103 @@
+{%extends 'playground/base.html' %}
+{%block title%}Review Question{%endblock%}
+{% block extrahead %}
+<script type="text/javascript">
+<!--
+    function toggle_visibility(id, hide_id) {
+      $(hide_id).hide()
+       var e = document.getElementById(id);
+       if (e.style.display == 'block') {
+          e.style.display = 'none';
+        } else {
+          e.style.display = 'block';
+        }
+    }
+//-->
+</script>
+{% endblock extrahead %}
+{% block extrastyle %}
+td {border: 3px solid #eee; border-bottom: 3px solid #aaa;}
+#q {margin: 20; border: 1px solid gray; padding: 5px}
+
+#submit {margin-top: 10; margin-left: 75; }
+#answer {margin: 10px; border-bottom: 2px solid #eee; padding:7px}
+.section {height:15px; padding: 15px; border-bottom: 2px solid #eee;}
+#qf,#af,#cf,#df,#qtf,#vf {display:none}
+.col2 {width: 300px;}
+.success {color:green; border: 1px green solid; padding:3px; width: 350px;}
+{% endblock %}
+{%block content%}
+{% for m in messages %}
+ <div class="success">{{m}}</div>
+{% endfor %}
+<ul><li>NOTE: Either answer OR choices field should be set, NOT both.</li>
+</ul>
+
+<form method="POST" action=".">{%csrf_token%}
+    <div>
+        <table>
+        <tr><td>Question</td><td class="col2">
+                <span id='qf'>{{form.question}}</span>
+                <div id="qe">
+                {{form.instance.question}}
+                <a onclick='toggle_visibility("qf", "qe")' href='#'>edit</a>
+                </div>
+            </td>
+            </tr>
+
+        <tr><td>Answer</td><td>
+                <span id='af'>{{form.answer}}</span>
+                <div id="ae">
+                {{form.instance.answer}}
+                <a onclick='toggle_visibility("af", "ae")' href='#'>edit</a>
+                </div>
+        </td></tr>
+
+        <tr><td>Choices</td><td>
+                <span id='cf'>{{form.choices}}</span>
+                <div id="ce">
+                {{form.instance.choices}}<br>
+                <a onclick='toggle_visibility("cf", "ce")' href='#'>edit</a>
+                </div>
+                <br>{{form.choices.help_text}}</td></tr>
+
+        <tr><td>Difficulty</td><td>
+                <span id='df'>{{form.difficulty}}</span>
+                <div id="de">
+                {{form.instance.difficulty}}
+                <a onclick='toggle_visibility("df", "de")' href='#'>edit</a>
+                </div>
+                <br>{{form.difficulty.help_text}}</td></tr>
+
+        <tr><td>Type</td><td>
+                <span id='qtf'>{{form.question_type}}</span>
+
+                <div id="qte">
+                {{form.instance.question_type}}
+                <a onclick='toggle_visibility("qtf", "qte")' href='#'>edit</a>
+                </div>
+
+                <br>{{form.question_type.help_text}}</td>
+        </tr>
+
+        <tr><td>Version</td><td>
+                <span id='vf'>{{form.version}}</span>
+
+                <div id="ve">
+                {{form.instance.version}}
+                <a onclick='toggle_visibility("vf", "ve")' href='#'>edit</a>
+                </div>
+
+                <br>{{form.version.help_text}}</td>
+        </tr>
+
+        <tr><td>Flagged</td><td>{{form.flagged}}<br>{{form.flagged.help_text}}</tr>
+        <tr><td>Completed Review</td><td>{{form.reviewed}}<br>{{form.reviewed.help_text}}</tr>
+        </table>
+</div>
+
+    <input id="submit" type="submit" value="Update and go to Next Question" >
+</form>
+</div>
+{%endblock%}
+

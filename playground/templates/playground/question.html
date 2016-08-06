@@ -1,0 +1,51 @@
+{%extends 'playground/base.html' %}
+{%block title%}Random Question{%endblock%}
+{%block extrastyle%}
+#q {margin: 0; margin-bottom: 10px; border-bottom: 1px solid lightblue; padding: 5px; width:690px;  }
+#main { border: 1px solid lightblue; border-left: 25px solid lightblue; width: 700px; }
+#answer {margin: 10px; border-bottom: 2px solid #eee; padding:7px}
+#submit {margin-top: 10; margin-left: 75}
+input[type=text] {margin-left:10px;}
+ul {list-style:none}
+.val { font-weight:bold; }
+.label { margin-left: 10px }
+.no-marg { margin:0; }
+{%endblock%}
+<script>
+$("select").change(function() {
+    $(this).closest('form').submit();
+    });
+</script>
+{%block content%}
+
+ <span class='label'>My answered questions</span> [<span
+    class='val'>{{n_answered}}/{{n_questions}}]</span>
+
+{%if question.version%}
+    <span class='label'>Version</span> <span class='val'>{{question.version}}</span>
+{%endif%}
+
+{% if question.difficulty %}
+    <span class='label'></span> [<span class='val'>level: {{question.difficulty}}</span>]
+{% endif %}
+
+{% for m in messages %}
+ <div>{{m}}</div>
+{% endfor %}
+
+<div id='main'>
+<div id='q'> {{question.question}}
+</div>
+<form method="POST" action=".">{%csrf_token%}
+    <div>
+    {{ form.answer }}
+    </div>
+    {% if not form.is_radio %}
+        <input id="submit" type="submit" value="Submit" />
+    {% endif %}
+</form>
+</div>
+{%if request.user.is_authenticated %}
+<a href="{%url 'review_question'%}?question={{question.pk}}">review this question</a>
+{%endif%}
+{%endblock%}
