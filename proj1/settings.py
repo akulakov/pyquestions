@@ -20,7 +20,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'g*5n6wrq+(&05v=8^%#ra@np)v)a%)fg((t(z*^$w^4sy#_887'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -136,3 +135,5 @@ LOGIN_URL = '/'
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = "870631942646-fu48kbvn4lajvsjl2gko1dld7aekkhl2.apps.googleusercontent.com"
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = "IPdkd2EzF_BAUIS9Dn5JDUXE"
 SOCIAL_AUTH_NEW_USER_REDIRECT_URL = "/update-username/"
+
+from .local_settings import *
